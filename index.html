@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Promise</h1>
+ <form  onsubmit="checkWeather(); return false;">
+      <input type="text" name="cityName" id="cityName">
+      <button>
+        Check Weather
+      </button>
+    </form>
+    <div id="weather"></div>
+    <script>
+         function checkWeather() {
+        const cityRef = document.querySelector("#cityName")
+        const cityValue = cityRef.value
+        const weatherRef = document.querySelector("#weather")
+        //API Calling
+        const cityRes = fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityValue}&appid=e3b54c310bf3af253b6db6f0817f534b&units=metric`)
+        cityRes.then((data) => {
+            return data.json()
+          }) .then((data) => {
+            weatherRef.innerHTML = `${cityValue} Its Temperature Feels Like is ${data.main.feels_like}&deg;C`
+          }).catch((err) => {
+            console.log(err)
+             weatherRef.innerHTML="City not Found"
+            })
+        }
+       //fulfilled
+        const weatherRes=new Promise((resolve,reject)=>{
+            if(5>3){
+                resolve()
+            }else{
+                reject()
+            }
+        })
+        console.log(weatherRes)
+//then and catch
+     const weatgerRes=new Promise((resolve,reject)=>{
+        if(4>3){
+            resolve({weather: "10 Degree"})
+        }else{
+            reject({message:"Something went wrong"})
+        }
+     })
+     weatgerRes.then((data)=>{
+        console.log("I am then")
+        console.log(data)
+     })
+       .catch((error)=>{
+        console.log("I am catch")
+        console.log(error)
+       })
+
+    </script>
+</body>
+</html>
